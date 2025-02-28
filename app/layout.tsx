@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
+import Rightbar from "@/components/layout/Rightbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
           <Sidebar />
           {/* <div className="col-span-3">{children}</div> */}
           {children}
+          <Rightbar />
         </div>
       </body>
     </html>
