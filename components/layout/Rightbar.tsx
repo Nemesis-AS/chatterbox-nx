@@ -39,7 +39,7 @@ const Rightbar = () => {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col gap-4 py-4 px-4 mr-8 max-w-64 w-full divide-y divide-zinc-600 overflow-y-auto max-h-[calc(100vh_-_80px)] custom-scrollbar">
+      <aside className="hidden md:flex flex-col gap-4 py-4 px-4 mr-8 max-w-72 w-full divide-y divide-zinc-600 overflow-y-auto max-h-[calc(100vh_-_80px)] custom-scrollbar bg-black rounded-2xl mt-8">
         <div className="communities py-4">
           <div className="uppercase text-zinc-400 text-sm mb-4">
             Popular Communities

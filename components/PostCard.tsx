@@ -16,7 +16,7 @@ interface Props {
 
 const PostCard = ({ media }: Props) => {
   return (
-    <div className="card w-full max-w-3xl px-4 py-2 rounded-xl cursor-pointer duration-300 hover:bg-zinc-500/20">
+    <div className="card w-full max-w-3xl px-4 py-2 rounded-xl cursor-pointer duration-300 hover:bg-neutral-background-hover">
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center text-xs">
           <Image
