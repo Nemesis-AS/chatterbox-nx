@@ -31,9 +31,7 @@ const GoogleOAuthButton = () => {
   useEffect(() => {
     const initializeGoogleOneTap = async () => {
       console.log("Initializing Google One Tap");
-      // window.addEventListener("load", async () => {
       const [nonce, hashedNonce] = await generateNonce();
-      console.log("Nonce: ", nonce, hashedNonce);
 
       // check if there's already an existing session before initializing the one-tap UI
       const { data, error } = await supabase.auth.getSession();
@@ -44,6 +42,9 @@ const GoogleOAuthButton = () => {
         router.push("/");
         return;
       }
+
+      if (!window.google)
+        return;
 
       window.google.accounts.id.initialize({
         client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
@@ -59,20 +60,18 @@ const GoogleOAuthButton = () => {
             if (error) throw error;
             console.log("Session data: ", data);
             console.log("Successfully logged in with Google One Tap");
+            //@todo! Re render the current UI (Hide auth buttons)
 
             // redirect to protected page
-            router.push("/");
+            // router.push("/");
           } catch (error) {
             console.error("Error logging in with Google One Tap", error);
           }
         },
         nonce: hashedNonce,
-        // with chrome's removal of third-party cookiesm, we need to use FedCM instead (https://developers.google.com/identity/gsi/web/guides/fedcm-migration)
+        // with chrome's removal of third-party cookies, we need to use FedCM instead (https://developers.google.com/identity/gsi/web/guides/fedcm-migration)
         use_fedcm_for_prompt: true,
       });
-
-      // const btnEl = document.getElementById("google-login-btn");
-      // console.log(btnEl);
 
       if (btnEl.current) {
         window.google.accounts.id.renderButton(btnEl.current, {
@@ -84,16 +83,13 @@ const GoogleOAuthButton = () => {
         });
       }
 
-      console.log(btnEl);
-
-      // window.google.accounts.id.prompt(); // Display the One Tap UI
-      // });
       clearTimeout(timeoutId);
     };
 
     const timeoutId = setTimeout(initializeGoogleOneTap, 500);
     // initializeGoogleOneTap();
     // return () => window.removeEventListener("load", initializeGoogleOneTap);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

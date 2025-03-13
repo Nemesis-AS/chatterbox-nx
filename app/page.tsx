@@ -1,4 +1,3 @@
-import LoginModal from "@/components/auth/LoginModal";
 import Rightbar from "@/components/layout/Rightbar";
 import Sidebar from "@/components/layout/Sidebar";
 import PostCard from "@/components/PostCard";

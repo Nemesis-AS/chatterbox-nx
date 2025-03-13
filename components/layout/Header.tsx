@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 import { PiMagnifyingGlass, PiListBold } from "react-icons/pi";
+import AuthBtn from "../auth/AuthBtn";
 
 const Header = () => {
   return (
@@ -30,9 +31,11 @@ const Header = () => {
           <button className="md:hidden p-2 rounded-lg cursor-pointer hover:bg-zinc-500/50">
             <PiMagnifyingGlass className="size-5" />
           </button>
-          <button className="bg-primary px-4 py-2 text-sm rounded-full">
+          {/* <button className="bg-primary px-4 py-2 text-sm rounded-full">
             Log In
-          </button>
+          </button> */}
+
+          <AuthBtn />
         </div>
       </header>
 
