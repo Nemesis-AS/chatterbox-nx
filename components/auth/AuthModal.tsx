@@ -8,10 +8,11 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
 type AuthModalProps = {
-  closeModal: () => void
+  closeModal: () => void;
+  setLoggedIn: (value: boolean) => void;
 };
 
-const AuthModal: React.FC<AuthModalProps> = ({ closeModal }) => {
+const AuthModal: React.FC<AuthModalProps> = ({ closeModal, setLoggedIn }) => {
   const [showLoginForm, setShowLoginForm] = useState(true);
 
   return (
@@ -47,9 +48,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ closeModal }) => {
         </div>
 
         {showLoginForm ? (
-          <LoginForm setShowLoginForm={setShowLoginForm} />
+          <LoginForm
+            setShowLoginForm={setShowLoginForm}
+            setLoggedIn={setLoggedIn}
+            closeModal={closeModal}
+          />
         ) : (
-          <RegisterForm setShowLoginForm={setShowLoginForm} />
+          <RegisterForm
+            setShowLoginForm={setShowLoginForm}
+            setLoggedIn={setLoggedIn}
+            closeModal={closeModal}
+          />
         )}
       </div>
     </div>

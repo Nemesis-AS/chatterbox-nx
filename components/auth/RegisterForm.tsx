@@ -1,61 +1,109 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import { signup } from "@/components/auth/authActions";
+import { useFormState } from "react-dom";
 
 type RegisterFormProps = {
-  setShowLoginForm: (value: boolean) => void
+  setShowLoginForm: (value: boolean) => void;
+  setLoggedIn: (value: boolean) => void;
+  closeModal: () => void;
 };
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ setShowLoginForm }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({
+  setShowLoginForm,
+  setLoggedIn,
+  closeModal,
+}) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
 
+  const [state, formAction] = useFormState(signup, {
+    success: false,
+    message: null,
+  });
+
   const validateFormData = () => {
-    return Boolean(formData.email !== "" && formData.password !== "");
+    return Boolean(
+      formData.email === "" ||
+        formData.password === "" ||
+        formData.username === ""
+    );
   };
 
-  return (
-    <form className="flex flex-col justify-center gap-4 py-4 max-w-sm mx-auto w-full">
-       <input
-        type="text"
-        placeholder="Username"
-        className="bg-tone-7 p-4 rounded-2xl text-white/70"
-        value={formData.email}
-        onInput={(e) =>
-          setFormData({
-            ...formData,
-            username: (e.target as HTMLInputElement).value,
-          })
-        }
-      />
+  useEffect(() => {
+    if (state.success) {
+      setLoggedIn(true);
 
-      <input
-        type="text"
-        placeholder="Email"
-        className="bg-tone-7 p-4 rounded-2xl text-white/70"
-        value={formData.email}
-        onInput={(e) =>
-          setFormData({
-            ...formData,
-            email: (e.target as HTMLInputElement).value,
-          })
-        }
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        className="bg-tone-7 p-4 rounded-2xl text-white/70"
-        value={formData.password}
-        onInput={(e) =>
-          setFormData({
-            ...formData,
-            password: (e.target as HTMLInputElement).value,
-          })
-        }
-      />
+      closeModal();
+    }
+  });
+
+  return (
+    <form
+      className="flex flex-col justify-center gap-4 py-4 max-w-sm mx-auto w-full"
+      action={formAction}
+    >
+      <div className="flex flex-col">
+        <input
+          type="text"
+          placeholder="Username"
+          className="bg-tone-7 p-4 rounded-2xl text-white/70"
+          value={formData.username}
+          name="username"
+          onInput={(e) =>
+            setFormData({
+              ...formData,
+              username: (e.target as HTMLInputElement).value,
+            })
+          }
+        />
+        <span className="text-xs text-rose-400 pl-4">
+          {state.errors?.username}
+        </span>
+      </div>
+
+      <div className="flex flex-col">
+        <input
+          type="text"
+          placeholder="Email"
+          className="bg-tone-7 p-4 rounded-2xl text-white/70"
+          value={formData.email}
+          name="email"
+          onInput={(e) =>
+            setFormData({
+              ...formData,
+              email: (e.target as HTMLInputElement).value,
+            })
+          }
+        />
+        <span className="text-xs text-rose-400 pl-4">
+          {state.errors?.email}
+        </span>
+      </div>
+
+      <div className="flex flex-col">
+        <input
+          type="password"
+          placeholder="Password"
+          className="bg-tone-7 p-4 rounded-2xl text-white/70"
+          value={formData.password}
+          name="password"
+          onInput={(e) =>
+            setFormData({
+              ...formData,
+              password: (e.target as HTMLInputElement).value,
+            })
+          }
+        />
+        <span className="text-xs text-rose-400 pl-4">
+          {state.errors?.password}
+        </span>
+      </div>
 
       <div>
         Already on reddit?{" "}

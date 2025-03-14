@@ -14,13 +14,18 @@ const AuthBtn = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const session = await supabase.auth.getSession();
-      
-      if (!session.data.session)
-        setLoggedIn(false);
+
+      if (!session.data.session) setLoggedIn(false);
     };
 
     checkAuth();
   });
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+
+    setLoggedIn(false);
+  };
 
   const closeModal = () => {
     setShowModal(false);
@@ -28,16 +33,23 @@ const AuthBtn = () => {
 
   return (
     <>
-      {!isLoggedIn && (
+      {!isLoggedIn ? (
         <button
           onClick={() => setShowModal(true)}
           className="bg-primary hover:bg-primary-hover px-4 py-2 text-sm rounded-full cursor-pointer"
         >
           Log In
         </button>
+      ) : (
+        <button
+          onClick={logout}
+          className="bg-primary hover:bg-primary-hover px-4 py-2 text-sm rounded-full cursor-pointer"
+        >
+          Log Out
+        </button>
       )}
 
-      {showModal && <AuthModal closeModal={closeModal} />}
+      {showModal && <AuthModal closeModal={closeModal} setLoggedIn={setLoggedIn} />}
     </>
   );
 };
